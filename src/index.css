@@ -1,96 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cosmic midnight palette */
+    --background: 230 35% 7%;
+    --foreground: 45 30% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 230 30% 12%;
+    --card-foreground: 45 30% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 230 30% 12%;
+    --popover-foreground: 45 30% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 80% 60%;
+    --primary-foreground: 230 35% 7%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 255 30% 25%;
+    --secondary-foreground: 45 30% 95%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 230 25% 18%;
+    --muted-foreground: 230 15% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 270 40% 50%;
+    --accent-foreground: 45 30% 95%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 255 20% 25%;
+    --input: 255 20% 25%;
+    --ring: 45 80% 60%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Custom cosmic colors */
+    --cosmic-midnight: 230 35% 7%;
+    --cosmic-deep: 230 30% 12%;
+    --cosmic-glow: 255 60% 70%;
+    --cosmic-gold: 45 80% 60%;
+    --cosmic-lavender: 270 40% 70%;
+    --cosmic-cream: 45 30% 95%;
+    --cosmic-mist: 230 25% 30%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Gradients */
+    --gradient-cosmic: linear-gradient(135deg, hsl(230 35% 7%) 0%, hsl(255 40% 15%) 50%, hsl(230 35% 7%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 80% 55%) 0%, hsl(35 90% 65%) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(255 60% 70% / 0.15) 0%, transparent 70%);
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(255 60% 70% / 0.15);
+    --shadow-gold: 0 4px 30px hsl(45 80% 60% / 0.2);
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 230 30% 12%;
+    --sidebar-foreground: 45 30% 95%;
+    --sidebar-primary: 45 80% 60%;
+    --sidebar-primary-foreground: 230 35% 7%;
+    --sidebar-accent: 255 30% 25%;
+    --sidebar-accent-foreground: 45 30% 95%;
+    --sidebar-border: 255 20% 25%;
+    --sidebar-ring: 45 80% 60%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
+    --background: 230 35% 7%;
+    --foreground: 45 30% 95%;
+    --card: 230 30% 12%;
+    --card-foreground: 45 30% 95%;
+    --popover: 230 30% 12%;
+    --popover-foreground: 45 30% 95%;
+    --primary: 45 80% 60%;
+    --primary-foreground: 230 35% 7%;
+    --secondary: 255 30% 25%;
+    --secondary-foreground: 45 30% 95%;
+    --muted: 230 25% 18%;
+    --muted-foreground: 230 15% 65%;
+    --accent: 270 40% 50%;
+    --accent-foreground: 45 30% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 255 20% 25%;
+    --input: 255 20% 25%;
+    --ring: 45 80% 60%;
   }
 }
 
@@ -100,6 +94,101 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    background: linear-gradient(135deg, hsl(230 35% 7%) 0%, hsl(255 40% 12%) 50%, hsl(230 35% 7%) 100%);
+    min-height: 100vh;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .cosmic-card {
+    @apply bg-card/60 backdrop-blur-xl rounded-2xl border border-border/50;
+    box-shadow: 
+      0 0 60px hsl(255 60% 70% / 0.08),
+      inset 0 1px 0 hsl(255 60% 70% / 0.1);
+  }
+
+  .cosmic-button {
+    @apply bg-primary text-primary-foreground font-display font-medium px-8 py-4 rounded-xl;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:scale-105;
+    box-shadow: 0 4px 30px hsl(45 80% 60% / 0.3);
+  }
+
+  .cosmic-button:hover {
+    box-shadow: 0 8px 40px hsl(45 80% 60% / 0.5);
+  }
+
+  .cosmic-input {
+    @apply bg-muted/50 border-border/50 text-foreground rounded-xl px-4 py-3;
+    @apply focus:border-primary/50 focus:ring-2 focus:ring-primary/20;
+    @apply transition-all duration-300;
+  }
+
+  .cosmic-glow {
+    position: relative;
+  }
+
+  .cosmic-glow::before {
+    content: '';
+    position: absolute;
+    inset: -100px;
+    background: radial-gradient(circle at 50% 50%, hsl(255 60% 70% / 0.1) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(45 80% 55%) 0%, hsl(35 90% 70%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .mood-chip {
+    @apply px-5 py-3 rounded-full border-2 cursor-pointer transition-all duration-300;
+    @apply hover:scale-105;
+  }
+
+  .mood-chip-selected {
+    @apply bg-primary/20 border-primary text-primary;
+    box-shadow: 0 0 20px hsl(45 80% 60% / 0.3);
+  }
+
+  .mood-chip-unselected {
+    @apply bg-muted/30 border-border/50 text-muted-foreground;
+    @apply hover:border-primary/50 hover:bg-muted/50;
+  }
+}
+
+/* Star animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }

@@ -1,0 +1,4 @@
+project_id = "phhkykphpsotudaspnai"
+
+[functions.generate-insight]
+verify_jwt = false
