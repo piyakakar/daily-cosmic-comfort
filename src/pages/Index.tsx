@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { History } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { MoodSelector } from '@/components/MoodSelector';
 import { DateInput } from '@/components/DateInput';
 import { GenerateButton } from '@/components/GenerateButton';
 import { InsightDisplay } from '@/components/InsightDisplay';
+import { ReadingHistory } from '@/components/ReadingHistory';
+import { useReadingHistory, Reading } from '@/hooks/useReadingHistory';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -20,6 +23,9 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [insight, setInsight] = useState<Insight | null>(null);
   const [zodiacInfo, setZodiacInfo] = useState<{ zodiacSign: string; lifePathNumber: number } | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
+  
+  const { readings, saveReading, clearHistory } = useReadingHistory();
 
   const generateInsight = async () => {
     if (!selectedMood || !dateOfBirth) {
@@ -44,6 +50,15 @@ const Index = () => {
 
       setInsight(data.insight);
       setZodiacInfo({ zodiacSign: data.zodiacSign, lifePathNumber: data.lifePathNumber });
+      
+      // Save to history
+      saveReading({
+        mood: selectedMood,
+        dateOfBirth,
+        zodiacSign: data.zodiacSign,
+        lifePathNumber: data.lifePathNumber,
+        insight: data.insight,
+      });
     } catch (error) {
       console.error('Error:', error);
       toast.error('Failed to generate insight. Please try again.');
@@ -58,6 +73,14 @@ const Index = () => {
     setZodiacInfo(null);
   };
 
+  const handleSelectReading = (reading: Reading) => {
+    setInsight(reading.insight);
+    setZodiacInfo({ zodiacSign: reading.zodiacSign, lifePathNumber: reading.lifePathNumber });
+    setSelectedMood(reading.mood);
+    setDateOfBirth(reading.dateOfBirth);
+    setShowHistory(false);
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       <StarField />
@@ -69,13 +92,29 @@ const Index = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-semibold mb-4">
-            <span className="text-gradient-gold">Cosmic</span>{' '}
-            <span className="text-foreground">Insights</span>
-          </h1>
+          <div className="flex items-center justify-center gap-4">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-semibold">
+              <span className="text-gradient-gold">Cosmic</span>{' '}
+              <span className="text-foreground">Insights</span>
+            </h1>
+          </div>
           <p className="font-body text-muted-foreground text-lg max-w-md mx-auto">
             Discover what the stars and numbers reveal about your day
           </p>
+          {readings.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              onClick={() => setShowHistory(!showHistory)}
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/30 hover:bg-muted/50 border border-border/30 hover:border-primary/30 transition-all"
+            >
+              <History className="w-4 h-4 text-primary" />
+              <span className="font-body text-sm text-muted-foreground">
+                {readings.length} past reading{readings.length !== 1 ? 's' : ''}
+              </span>
+            </motion.button>
+          )}
         </motion.div>
 
         <motion.div
@@ -84,7 +123,14 @@ const Index = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="w-full max-w-2xl cosmic-card p-8 md:p-12 space-y-8"
         >
-          {!insight ? (
+          {showHistory ? (
+            <ReadingHistory
+              readings={readings}
+              onSelectReading={handleSelectReading}
+              onClose={() => setShowHistory(false)}
+              onClear={clearHistory}
+            />
+          ) : !insight ? (
             <>
               <MoodSelector
                 selectedMood={selectedMood}
