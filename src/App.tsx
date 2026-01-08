@@ -3,10 +3,34 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
+import { useBackgroundMusic } from "@/hooks/useBackgroundMusic";
 import Index from "./pages/Index";
+import NaamNumerology from "./pages/NaamNumerology";
+import BirthdayReport from "./pages/BirthdayReport";
+import DailyFlags from "./pages/DailyFlags";
+import LoveEnergy from "./pages/LoveEnergy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  const { isPlaying, toggleMusic } = useBackgroundMusic();
+
+  return (
+    <>
+      <Navigation isMusicPlaying={isPlaying} onToggleMusic={toggleMusic} />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/naam-numerology" element={<NaamNumerology />} />
+        <Route path="/birthday-report" element={<BirthdayReport />} />
+        <Route path="/daily-flags" element={<DailyFlags />} />
+        <Route path="/love-energy" element={<LoveEnergy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -14,11 +38,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
