@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { History } from 'lucide-react';
+import { History, Type, Cake, Flag, Heart } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { MoodSelector } from '@/components/MoodSelector';
 import { DateInput } from '@/components/DateInput';
 import { GenerateButton } from '@/components/GenerateButton';
 import { InsightDisplay } from '@/components/InsightDisplay';
 import { ReadingHistory } from '@/components/ReadingHistory';
+import { FeatureCard } from '@/components/FeatureCard';
 import { useReadingHistory, Reading } from '@/hooks/useReadingHistory';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -184,10 +185,51 @@ const Index = () => {
           )}
         </motion.div>
 
+        {/* Feature Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="w-full max-w-2xl mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <FeatureCard
+            title="Naam Numerology"
+            description="Discover how your name & birth numbers interact"
+            icon={Type}
+            route="/naam-numerology"
+            gradient="bg-gradient-to-br from-violet-500/10 to-purple-500/10"
+            delay={0.5}
+          />
+          <FeatureCard
+            title="Birthday Report"
+            description="Your yearly energy forecast"
+            icon={Cake}
+            route="/birthday-report"
+            gradient="bg-gradient-to-br from-amber-500/10 to-orange-500/10"
+            delay={0.6}
+          />
+          <FeatureCard
+            title="Daily Flags"
+            description="What to embrace & avoid today"
+            icon={Flag}
+            route="/daily-flags"
+            gradient="bg-gradient-to-br from-emerald-500/10 to-teal-500/10"
+            delay={0.7}
+          />
+          <FeatureCard
+            title="Love Energy"
+            description="Check your romantic energy & compatibility"
+            icon={Heart}
+            route="/love-energy"
+            gradient="bg-gradient-to-br from-pink-500/10 to-rose-500/10"
+            delay={0.8}
+          />
+        </motion.div>
+
         <motion.footer
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.9 }}
           className="mt-12 text-center"
         >
           <p className="font-body text-muted-foreground/60 text-sm">
