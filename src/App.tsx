@@ -14,6 +14,7 @@ import DailyMessage from "./pages/DailyMessage";
 import CareerAstrology from "./pages/CareerAstrology";
 import Affirmations from "./pages/Affirmations";
 import Premium from "./pages/Premium";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const AppContent = () => {
       />
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/naam-numerology" element={<NaamNumerology />} />
         <Route path="/birthday-report" element={<BirthdayReport />} />
         <Route path="/daily-flags" element={<DailyFlags />} />
