@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { History, Type, Cake, Flag, Heart, Sparkles, Briefcase, Crown, MessageCircle } from 'lucide-react';
+import { History, Type, Cake, Flag, Heart, Sparkles, Briefcase, Crown, MessageCircle, LayoutDashboard } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { MoodSelector } from '@/components/MoodSelector';
 import { DateInput } from '@/components/DateInput';
@@ -192,6 +192,14 @@ const Index = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="w-full max-w-4xl mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
+          <FeatureCard
+            title="Dashboard"
+            description="Your cosmic overview"
+            icon={LayoutDashboard}
+            route="/dashboard"
+            gradient="bg-gradient-to-br from-violet-500/10 to-indigo-500/10"
+            delay={0.42}
+          />
           <FeatureCard
             title="Daily Message"
             description="One-line cosmic guidance"
