@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 // Using a royalty-free ambient space music URL
 const AMBIENT_MUSIC_URL = 'https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3';
@@ -6,12 +6,13 @@ const AMBIENT_MUSIC_URL = 'https://assets.mixkit.co/music/preview/mixkit-dreamin
 export const useBackgroundMusic = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [volume, setVolume] = useState(0.3);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const audio = new Audio(AMBIENT_MUSIC_URL);
     audio.loop = true;
-    audio.volume = 0.3;
+    audio.volume = volume;
     audio.preload = 'auto';
     
     audio.addEventListener('canplaythrough', () => {
@@ -30,7 +31,13 @@ export const useBackgroundMusic = () => {
     };
   }, []);
 
-  const toggleMusic = async () => {
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  const toggleMusic = useCallback(async () => {
     if (!audioRef.current) return;
 
     try {
@@ -44,7 +51,28 @@ export const useBackgroundMusic = () => {
     } catch (error) {
       console.error('Error toggling music:', error);
     }
-  };
+  }, [isPlaying]);
 
-  return { isPlaying, isLoaded, toggleMusic };
+  const adjustVolume = useCallback((newVolume: number) => {
+    const clampedVolume = Math.max(0, Math.min(1, newVolume));
+    setVolume(clampedVolume);
+  }, []);
+
+  const increaseVolume = useCallback(() => {
+    adjustVolume(volume + 0.1);
+  }, [volume, adjustVolume]);
+
+  const decreaseVolume = useCallback(() => {
+    adjustVolume(volume - 0.1);
+  }, [volume, adjustVolume]);
+
+  return { 
+    isPlaying, 
+    isLoaded, 
+    volume,
+    toggleMusic, 
+    adjustVolume,
+    increaseVolume,
+    decreaseVolume
+  };
 };

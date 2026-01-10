@@ -10,22 +10,36 @@ import NaamNumerology from "./pages/NaamNumerology";
 import BirthdayReport from "./pages/BirthdayReport";
 import DailyFlags from "./pages/DailyFlags";
 import LoveEnergy from "./pages/LoveEnergy";
+import DailyMessage from "./pages/DailyMessage";
+import CareerAstrology from "./pages/CareerAstrology";
+import Affirmations from "./pages/Affirmations";
+import Premium from "./pages/Premium";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { isPlaying, toggleMusic } = useBackgroundMusic();
+  const { isPlaying, volume, toggleMusic, increaseVolume, decreaseVolume } = useBackgroundMusic();
 
   return (
     <>
-      <Navigation isMusicPlaying={isPlaying} onToggleMusic={toggleMusic} />
+      <Navigation 
+        isMusicPlaying={isPlaying} 
+        onToggleMusic={toggleMusic}
+        volume={volume}
+        onVolumeIncrease={increaseVolume}
+        onVolumeDecrease={decreaseVolume}
+      />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/naam-numerology" element={<NaamNumerology />} />
         <Route path="/birthday-report" element={<BirthdayReport />} />
         <Route path="/daily-flags" element={<DailyFlags />} />
         <Route path="/love-energy" element={<LoveEnergy />} />
+        <Route path="/daily-message" element={<DailyMessage />} />
+        <Route path="/career-astrology" element={<CareerAstrology />} />
+        <Route path="/affirmations" element={<Affirmations />} />
+        <Route path="/premium" element={<Premium />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
