@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { History, Type, Cake, Flag, Heart } from 'lucide-react';
+import { History, Type, Cake, Flag, Heart, Sparkles, Briefcase, Crown, MessageCircle } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { MoodSelector } from '@/components/MoodSelector';
 import { DateInput } from '@/components/DateInput';
@@ -190,11 +190,19 @@ const Index = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="w-full max-w-2xl mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="w-full max-w-4xl mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           <FeatureCard
+            title="Daily Message"
+            description="One-line cosmic guidance"
+            icon={MessageCircle}
+            route="/daily-message"
+            gradient="bg-gradient-to-br from-cyan-500/10 to-blue-500/10"
+            delay={0.45}
+          />
+          <FeatureCard
             title="Naam Numerology"
-            description="Discover how your name & birth numbers interact"
+            description="Name & birth numbers"
             icon={Type}
             route="/naam-numerology"
             gradient="bg-gradient-to-br from-violet-500/10 to-purple-500/10"
@@ -202,26 +210,50 @@ const Index = () => {
           />
           <FeatureCard
             title="Birthday Report"
-            description="Your yearly energy forecast"
+            description="Yearly energy forecast"
             icon={Cake}
             route="/birthday-report"
             gradient="bg-gradient-to-br from-amber-500/10 to-orange-500/10"
-            delay={0.6}
+            delay={0.55}
           />
           <FeatureCard
             title="Daily Flags"
-            description="What to embrace & avoid today"
+            description="What to embrace & avoid"
             icon={Flag}
             route="/daily-flags"
             gradient="bg-gradient-to-br from-emerald-500/10 to-teal-500/10"
-            delay={0.7}
+            delay={0.6}
           />
           <FeatureCard
             title="Love Energy"
-            description="Check your romantic energy & compatibility"
+            description="Romantic compatibility"
             icon={Heart}
             route="/love-energy"
             gradient="bg-gradient-to-br from-pink-500/10 to-rose-500/10"
+            delay={0.65}
+          />
+          <FeatureCard
+            title="Career & Study"
+            description="Best days for success"
+            icon={Briefcase}
+            route="/career-astrology"
+            gradient="bg-gradient-to-br from-blue-500/10 to-indigo-500/10"
+            delay={0.7}
+          />
+          <FeatureCard
+            title="Affirmations"
+            description="Personal cosmic mantras"
+            icon={Sparkles}
+            route="/affirmations"
+            gradient="bg-gradient-to-br from-yellow-500/10 to-amber-500/10"
+            delay={0.75}
+          />
+          <FeatureCard
+            title="Premium"
+            description="Unlock full cosmic power"
+            icon={Crown}
+            route="/premium"
+            gradient="bg-gradient-to-br from-primary/20 to-accent/20"
             delay={0.8}
           />
         </motion.div>
