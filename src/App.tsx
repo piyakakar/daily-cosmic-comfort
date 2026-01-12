@@ -15,6 +15,9 @@ import CareerAstrology from "./pages/CareerAstrology";
 import Affirmations from "./pages/Affirmations";
 import Premium from "./pages/Premium";
 import Dashboard from "./pages/Dashboard";
+import CompatibilityChart from "./pages/CompatibilityChart";
+import ExplainMyDay from "./pages/ExplainMyDay";
+import CosmicCalendar from "./pages/CosmicCalendar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +45,9 @@ const AppContent = () => {
         <Route path="/career-astrology" element={<CareerAstrology />} />
         <Route path="/affirmations" element={<Affirmations />} />
         <Route path="/premium" element={<Premium />} />
+        <Route path="/compatibility" element={<CompatibilityChart />} />
+        <Route path="/explain-my-day" element={<ExplainMyDay />} />
+        <Route path="/cosmic-calendar" element={<CosmicCalendar />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
