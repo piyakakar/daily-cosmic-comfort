@@ -2,3 +2,12 @@ project_id = "phhkykphpsotudaspnai"
 
 [functions.generate-insight]
 verify_jwt = false
+
+[functions.compatibility-analysis]
+verify_jwt = false
+
+[functions.explain-my-day]
+verify_jwt = false
+
+[functions.cosmic-calendar]
+verify_jwt = false
