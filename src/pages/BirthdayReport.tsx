@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cake, Sparkles, TrendingUp, Heart, AlertTriangle, Gift, CheckCircle2 } from 'lucide-react';
+import { Cake, Sparkles, TrendingUp, Heart, AlertTriangle, Gift, CheckCircle2, Download } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { DateInput } from '@/components/DateInput';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { getZodiacSign, calculateLifePathNumber } from '@/lib/numerology';
+import { generateReportPDF, downloadPDF } from '@/lib/pdfExport';
 
 interface BirthdayInsight {
   yearTheme: string;
@@ -76,6 +77,30 @@ const BirthdayReport = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const sections = [
+      { heading: '✨ Year Theme', content: result.insight.yearTheme },
+      { heading: '💼 Career Focus', content: result.insight.careerFocus },
+      { heading: '❤️ Love Focus', content: result.insight.loveFocus },
+      { heading: '🌟 Lucky Months', content: result.insight.luckyMonths.join(', ') },
+      { heading: '⚠️ One Warning', content: result.insight.warning },
+      { heading: '🎁 One Blessing', content: result.insight.blessing },
+      { heading: '💡 Real-Life Tips', content: result.insight.tips },
+    ];
+
+    const metadata = [
+      { label: 'Zodiac', value: result.zodiacSign },
+      { label: 'Life Path', value: String(result.lifePathNumber) },
+      { label: 'Personal Year', value: String(result.personalYear) },
+    ];
+
+    const doc = generateReportPDF('Birthday Energy Report', sections, metadata);
+    downloadPDF(doc, `birthday-report-${new Date().toISOString().split('T')[0]}`);
+    toast.success('PDF downloaded successfully!');
   };
 
   return (
@@ -225,12 +250,23 @@ const BirthdayReport = () => {
                 </ul>
               </div>
 
-              <button
-                onClick={() => setResult(null)}
-                className="font-body text-muted-foreground hover:text-primary transition-colors mx-auto block"
-              >
-                Generate another report
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDownloadPDF}
+                  className="cosmic-button flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </motion.button>
+                <button
+                  onClick={() => setResult(null)}
+                  className="font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Generate another report
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>

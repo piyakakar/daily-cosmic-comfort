@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles, Users, Flame, Clock, CheckCircle2 } from 'lucide-react';
+import { Heart, Sparkles, Users, Flame, Clock, CheckCircle2, Download } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { DateInput } from '@/components/DateInput';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { getZodiacSign, calculateLifePathNumber } from '@/lib/numerology';
+import { generateReportPDF, downloadPDF } from '@/lib/pdfExport';
 
 interface LoveInsight {
   energyLevel: 'Low' | 'Medium' | 'High' | 'Very High';
@@ -104,6 +105,33 @@ const LoveEnergy = () => {
       case 'Very High': return '100%';
       default: return '50%';
     }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const sections = [
+      { heading: '🔥 Romantic Energy', content: `Level: ${result.insight.energyLevel}\n${result.insight.energyDescription}` },
+      { heading: '⏰ Best Time to Connect', content: result.insight.bestTimeToConnect },
+      { heading: '💫 If You\'re Single', content: result.insight.singleAdvice },
+      { heading: '💕 If You\'re In a Relationship', content: result.insight.coupleAdvice },
+      { heading: '💘 Crush Energy Check', content: result.insight.crushEnergy },
+      { heading: '🟢 Green Flag Traits', content: result.insight.greenFlagTraits },
+      { heading: '🔴 Red Flag Traits', content: result.insight.redFlagTraits },
+      { heading: '💡 Real-Life Tips', content: result.insight.tips },
+    ];
+
+    const metadata = result.compatibilityScore !== undefined
+      ? [
+          { label: 'Your Sign', value: result.zodiacSign },
+          { label: 'Partner\'s Sign', value: result.partnerZodiac || '' },
+          { label: 'Compatibility', value: `${result.compatibilityScore}%` },
+        ]
+      : [{ label: 'Zodiac', value: result.zodiacSign }];
+
+    const doc = generateReportPDF('Love Energy Report', sections, metadata);
+    downloadPDF(doc, `love-energy-${new Date().toISOString().split('T')[0]}`);
+    toast.success('PDF downloaded successfully!');
   };
 
   return (
@@ -317,12 +345,23 @@ const LoveEnergy = () => {
                 </ul>
               </div>
 
-              <button
-                onClick={() => setResult(null)}
-                className="font-body text-muted-foreground hover:text-primary transition-colors mx-auto block"
-              >
-                Check again
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDownloadPDF}
+                  className="cosmic-button flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </motion.button>
+                <button
+                  onClick={() => setResult(null)}
+                  className="font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Check again
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>

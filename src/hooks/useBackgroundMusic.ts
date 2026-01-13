@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-// Using a royalty-free ambient space music URL
-const AMBIENT_MUSIC_URL = 'https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3';
+// Peaceful cosmic ambient music - royalty-free space meditation music
+const COSMIC_MUSIC_URL = 'https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3';
 
 export const useBackgroundMusic = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -10,7 +10,7 @@ export const useBackgroundMusic = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio(AMBIENT_MUSIC_URL);
+    const audio = new Audio(COSMIC_MUSIC_URL);
     audio.loop = true;
     audio.volume = volume;
     audio.preload = 'auto';
