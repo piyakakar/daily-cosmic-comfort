@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Sparkles, Calendar, Palette, Star, CheckCircle2 } from 'lucide-react';
+import { User, Sparkles, Calendar, Palette, Star, CheckCircle2, Download } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { DateInput } from '@/components/DateInput';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { calculateNaamAnk, calculateMulank, getLuckyColors, getLuckyDays, getCompatibleNumbers } from '@/lib/numerology';
+import { generateReportPDF, downloadPDF } from '@/lib/pdfExport';
 
 interface NaamInsight {
   overview: string;
@@ -59,6 +60,30 @@ const NaamNumerology = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const sections = [
+      { heading: '⭐ Overview', content: result.insight.overview },
+      { heading: '✨ Harmony Between Numbers', content: result.insight.harmony },
+      { heading: '🎨 Lucky Colors', content: getLuckyColors(result.mulank).join(', ') },
+      { heading: '📅 Lucky Days', content: getLuckyDays(result.mulank).join(', ') },
+      { heading: '🔢 Compatible Numbers', content: getCompatibleNumbers(result.mulank).join(', ') },
+      { heading: '💪 Strengths', content: result.insight.strengths },
+      { heading: '⚡ Challenges', content: result.insight.challenges },
+      { heading: '💡 Real-Life Tips', content: result.insight.tips },
+    ];
+
+    const metadata = [
+      { label: 'Naam Ank', value: String(result.naamAnk) },
+      { label: 'Mulank', value: String(result.mulank) },
+    ];
+
+    const doc = generateReportPDF('Naam Numerology Report', sections, metadata);
+    downloadPDF(doc, `naam-numerology-${new Date().toISOString().split('T')[0]}`);
+    toast.success('PDF downloaded successfully!');
   };
 
   const naamAnk = name ? calculateNaamAnk(name) : 0;
@@ -242,12 +267,23 @@ const NaamNumerology = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => setResult(null)}
-                className="font-body text-muted-foreground hover:text-primary transition-colors mx-auto block"
-              >
-                Try another name
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDownloadPDF}
+                  className="cosmic-button flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </motion.button>
+                <button
+                  onClick={() => setResult(null)}
+                  className="font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Try another name
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>

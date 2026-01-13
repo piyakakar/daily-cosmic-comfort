@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, GraduationCap, Calendar, Sparkles, TrendingUp, BookOpen, Code, Palette, BarChart3 } from 'lucide-react';
+import { Briefcase, GraduationCap, Calendar, Sparkles, TrendingUp, BookOpen, Code, Palette, BarChart3, Download } from 'lucide-react';
 import { StarField } from '@/components/StarField';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { generateReportPDF, downloadPDF } from '@/lib/pdfExport';
 
 interface CareerInsight {
   careerPath: string;
@@ -52,6 +53,26 @@ const CareerAstrology = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!insight) return;
+
+    const sections = [
+      { heading: '📈 Career Path', content: insight.careerPath },
+      { heading: '📚 Study Advice', content: insight.studyAdvice },
+      { heading: '📅 Best Days to Study', content: insight.bestDaysToStudy.join(', ') },
+      { heading: '🎓 Exam Success Periods', content: insight.examSuccessPeriods },
+      { 
+        heading: '⚡ Career Energies', 
+        content: `Tech & IT: ${insight.careerEnergies.tech}% | Creative: ${insight.careerEnergies.creative}% | Business: ${insight.careerEnergies.business}%` 
+      },
+      { heading: '💡 Action Tips', content: insight.actionTips },
+    ];
+
+    const doc = generateReportPDF('Career & Study Insights', sections);
+    downloadPDF(doc, `career-report-${new Date().toISOString().split('T')[0]}`);
+    toast.success('PDF downloaded successfully!');
   };
 
   const getEnergyBarWidth = (value: number) => `${Math.min(100, Math.max(0, value))}%`;
@@ -263,12 +284,23 @@ const CareerAstrology = () => {
                 </ul>
               </div>
 
-              <button
-                onClick={() => setInsight(null)}
-                className="font-body text-muted-foreground hover:text-primary transition-colors underline-offset-4 hover:underline w-full text-center"
-              >
-                Check another profile
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDownloadPDF}
+                  className="cosmic-button flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </motion.button>
+                <button
+                  onClick={() => setInsight(null)}
+                  className="font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Check another profile
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>
