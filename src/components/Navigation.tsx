@@ -77,47 +77,7 @@ export const Navigation = ({
         )}
       </div>
       
-      <div className="flex items-center gap-2">
-        {isMusicPlaying && (
-          <div className="flex items-center gap-1">
-            <button
-              onClick={onVolumeDecrease}
-              className="p-2 rounded-full bg-background/40 backdrop-blur-md border border-border/30 hover:border-primary/30 transition-all"
-              aria-label="Decrease volume"
-            >
-              <Minus className="w-4 h-4 text-muted-foreground" />
-            </button>
-            <span className="font-body text-xs text-muted-foreground min-w-[2.5rem] text-center">
-              {Math.round(volume * 100)}%
-            </span>
-            <button
-              onClick={onVolumeIncrease}
-              className="p-2 rounded-full bg-background/40 backdrop-blur-md border border-border/30 hover:border-primary/30 transition-all"
-              aria-label="Increase volume"
-            >
-              <Plus className="w-4 h-4 text-muted-foreground" />
-            </button>
-          </div>
-        )}
-        
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onToggleMusic();
-          }}
-          className="p-3 rounded-full bg-background/60 backdrop-blur-md border border-primary/40 hover:border-primary/60 hover:bg-background/80 transition-all cursor-pointer active:scale-95"
-          style={{ touchAction: 'manipulation' }}
-          aria-label={isMusicPlaying ? 'Mute music' : 'Play music'}
-          title={isMusicPlaying ? 'Click to mute' : 'Click to play music'}
-        >
-          {isMusicPlaying ? (
-            <Volume2 className="w-5 h-5 text-primary" />
-          ) : (
-            <VolumeX className="w-5 h-5 text-primary" />
-          )}
-        </button>
-      </div>
+      {/* Music controls removed */}
     </motion.div>
   );
 };
